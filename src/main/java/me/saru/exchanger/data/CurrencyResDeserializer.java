@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 
+import static java.util.Optional.ofNullable;
+
 public class CurrencyResDeserializer extends JsonDeserializer<CurrencyData.Res> {
 
     @Override
@@ -22,14 +24,10 @@ public class CurrencyResDeserializer extends JsonDeserializer<CurrencyData.Res> 
             return new CurrencyData.Res(false, null, null, null);
         }
 
-        final JsonNode krw = quotes.get("USDKRW");
-        final JsonNode jpy = quotes.get("USDJPY");
-        final JsonNode php = quotes.get("USDPHP");
+        final Long krw = ofNullable(quotes.get("USDKRW")).map(JsonNode::asLong).orElse(null);
+        final Long jpy = ofNullable(quotes.get("USDJPY")).map(JsonNode::asLong).orElse(null);
+        final Long php = ofNullable(quotes.get("USDPHP")).map(JsonNode::asLong).orElse(null);
 
-        return new CurrencyData.Res(true,
-                krw == null ? null : krw.asLong(),
-                jpy == null ? null : jpy.asLong(),
-                php == null ? null : php.asLong()
-        );
+        return new CurrencyData.Res(true, krw, jpy, php);
     }
 }
