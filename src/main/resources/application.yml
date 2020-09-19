@@ -3,9 +3,9 @@ spring:
     view:
       suffix: .html
 
-#logging:
-#  level:
-#    org.springframework.web: DEBUG
+logging:
+  level:
+    org.springframework.web: DEBUG
 
 exchange:
   access-key: 0515a49dfab221e7ab4317ca087a516e

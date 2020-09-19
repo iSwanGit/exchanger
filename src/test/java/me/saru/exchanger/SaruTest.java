@@ -26,7 +26,7 @@ public class SaruTest {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Test
-    void apiTest() throws Exception {
+    void api_요청_정상_성공() throws Exception {
         String testUrl = "http://api.currencylayer.com/live?access_key=" + configProperties.getAccessKey() + "&currencies=" +
                 String.join(",", configProperties.getCurrencies()) + "&format=1";
 
@@ -37,5 +37,19 @@ public class SaruTest {
         assertThat(body.getJpy()).isNotNull();
         assertThat(body.getKrw()).isNotNull();
         assertThat(body.getPhp()).isNotNull();
+    }
+
+    @Test
+    void 수취국가가_2개인_경우() {
+        String testUrl = "http://api.currencylayer.com/live?access_key=" + configProperties.getAccessKey() + "&currencies=" +
+                String.join(",", configProperties.getCurrencies()).replace("PHP", "") + "&format=1";
+
+        ResponseEntity<CurrencyData.Res> entity = restTemplate.getForEntity(testUrl, CurrencyData.Res.class);
+        CurrencyData.Res body = entity.getBody();
+        assertThat(body).isNotNull();
+        assertThat(body.isSuccess()).isTrue();
+        assertThat(body.getJpy()).isNotNull();
+        assertThat(body.getKrw()).isNotNull();
+        assertThat(body.getPhp()).isNull();
     }
 }
