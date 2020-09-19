@@ -1,18 +1,31 @@
 <template>
   <div>
-    <select name="Currency" @change="onChange($event)" class="form-control"
-            v-model="targetCurrency">
-      <option value="krw" selected>한국(KRW)</option>
-      <option value="jpy">일본(JPY)</option>
-      <option value="php">필리핀(PHP)</option>
-    </select>
+    <h1>환율 계산</h1>
+    <form>
+      <div>송금국가: 미국(USD)</div>
+      <div>
+        <label for="currencySelect">수취국가: </label>
+        <select id="currencySelect" name="Currency" @change="onChange($event)" class="form-control"
+                v-model="targetCurrency">
+          <option value="krw" selected>한국(KRW)</option>
+          <option value="jpy">일본(JPY)</option>
+          <option value="php">필리핀(PHP)</option>
+        </select>
+      </div>
+      <div>
+        환율 : {{ currency }} {{ targetCurrency.toUpperCase() }}/USD
+      </div>
+      <div>
+        <label for="amount">송금액: </label>
+        <input id="amount" type="text" v-model="amount"> USD
+      </div>
+      <div>
+        <button type="submit" @click.prevent="calculate">Submit</button>
+      </div>
+    </form>
 
-    <div>
-      현재환율 : {{ currency }}
-    </div>
-
-    <div>
-      <input  type="text" v-model="amount">
+    <div v-if="result">
+      수취금액은 {{ result }} 입니다.
     </div>
   </div>
 </template>
@@ -33,7 +46,7 @@ export default {
         jpy: 104,
         php: 50,
       },
-      result: '',
+      result: null,
       message: '',
     };
   },
@@ -52,6 +65,9 @@ export default {
       //     console.log(error);
       //   });
       this.currency = this.dummy[this.targetCurrency];
+    },
+    calculate() {
+      this.result = this.amount * 100;
     },
   },
   mounted() {
