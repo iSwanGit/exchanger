@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
+	id "com.github.node-gradle.node" version "2.2.4"
 }
 
 group = 'me.saru'
@@ -35,3 +36,42 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+
+def webappDir = "${project.projectDir}/frontend/exchanger"
+
+node {
+	version = '12.18.0'
+	download = true
+	workDir = file("${project.buildDir}/nodejs")
+	npmWorkDir = file("${project.buildDir}/npm")
+}
+
+task appNpmInstall(type: NpmTask) {
+	workingDir = file(webappDir)
+	args = ["install"]
+}
+
+task yarnBuild(type: YarnTask) {
+	workingDir = file(webappDir)
+	args = ['build']
+}
+
+task copyWebResource(type: Copy) {
+	from "frontend/exchanger/dist/index.html"
+//	into "build/resources/templates"
+	into "src/main/resources/templates"
+}
+
+task copyWebIndex(type: Copy) {
+	from ("frontend/exchanger/dist") {
+		exclude "index.html"
+	}
+//	into "build/resources/static"
+	into "src/main/resources/static"
+}
+
+//yarnBuild.dependsOn appNpmInstall
+//copyWebResource.dependsOn yarnBuild
+//copyWebIndex.dependsOn copyWebResource
+//compileJava.dependsOn copyWebIndex
