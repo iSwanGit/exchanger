@@ -57,10 +57,10 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 
 export default {
-  name: 'HelloWorld',
+  name: 'ExchangeCalculate',
   data() {
     return {
       targetCurrency: 'krw',
@@ -71,34 +71,41 @@ export default {
       ],
       currency: '',
       amount: '',
-      dummy: {
-        success: true,
-        krw: 1162,
-        jpy: 104,
-        php: 50,
-      },
       result: null,
       message: null,
     };
   },
   methods: {
     onChange(event) {
+      this.result = null;
+      this.message = null;
       this.targetCurrency = event;
       this.fetchData();
     },
     fetchData() {
-      // axios.get('https://jsonplaceholder.typicode.com/users/')
-      //   .then((response) => {
-      //     this.kwd = response.status;
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-      this.currency = this.dummy[this.targetCurrency];
+      axios.get('/api/currencies')
+        .then((response) => {
+          this.currency = response.data[this.targetCurrency];
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     calculate() {
-      this.result = this.amount * 100;
+      this.message = null;
+      axios.post('/api/calculate', {
+        fromAmount: this.amount,
+        currencyAmount: this.currency,
+      })
+        .then((response) => {
+          if (!response.data.success) {
+            this.message = '송금액이 바르지 않습니다';
+          }
+          this.result = response.data.result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   mounted() {

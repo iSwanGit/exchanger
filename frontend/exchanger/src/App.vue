@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <HelloWorld/>
+    <ExchangeCalculate/>
   </div>
 </template>
 
 <script>
 
-import HelloWorld from './components/HelloWorld.vue';
+import ExchangeCalculate from './components/ExchangeCalculate.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    ExchangeCalculate,
   },
 };
 </script>
