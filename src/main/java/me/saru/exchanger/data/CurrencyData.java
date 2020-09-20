@@ -1,13 +1,11 @@
 package me.saru.exchanger.data;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 public class CurrencyData {
-
-    public static class Req {
-
-    }
 
     @ToString
     @Getter

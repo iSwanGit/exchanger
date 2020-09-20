@@ -1,4 +1,4 @@
-package me.saru.exchanger;
+package me.saru.exchanger.controller.api;
 
 import me.saru.exchanger.config.ConfigProperties;
 import me.saru.exchanger.data.CurrencyData;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(initializers = ConfigFileApplicationContextInitializer.class)
 @EnableConfigurationProperties(value = ConfigProperties.class)
 @ActiveProfiles("test")
-public class SaruTest {
+public class ExternalApiTests {
     @Autowired
     private ConfigProperties configProperties;
 

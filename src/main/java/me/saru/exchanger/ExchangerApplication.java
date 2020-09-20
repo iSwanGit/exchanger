@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(value = ConfigProperties.class)
 public class ExchangerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ExchangerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ExchangerApplication.class, args);
+    }
 
 }
